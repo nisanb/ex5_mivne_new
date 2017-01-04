@@ -22,11 +22,14 @@ public class Mivne_ex5 {
         printTree(almostCompleteTree);
         log("Checking Complete Tree");
         log(checkTree(completeTree).toString());
+        log(isComplete(completeTree, 0)+"");
         log("Checking Almost Complete Tree");
         log(checkTree(almostCompleteTree).toString());
+        log(isComplete(almostCompleteTree, 0)+"");
         log("Checking Not Complete Tree");
         log(checkTree(notCompleteTree).toString());
-        
+        log("Mickey Function");
+        log(isComplete(notCompleteTree, 0)+"");
         log("");
     }
     
@@ -35,11 +38,12 @@ public class Mivne_ex5 {
         //Is empty - is full tree
         if(node==null)
             return true;
-        
+       // log("Checking node "+node.val);
         
         //If right tree is complete or almost complete
         //then the left one must be FULL
         if(checkTree(node.right)){
+            log("Right tree is complete for node "+node.val);
             if(node.left==null)
                 return false;
             if(node.left.left==null || node.left.right==null)
@@ -112,15 +116,16 @@ public class Mivne_ex5 {
      *            /   \
      *          4       6
      *        /   \    /  \
-     *       1        3   
+     *       2        9    
      * @return 
      */
     public static Node notCompleteTree(){
         Node root = new Node(3);
         root.left = new Node(4);
         root.right = new Node(6);
-        root.right.left = new Node(3);
-        root.right.right = new Node(5);
+        root.right.left = new Node(9);
+        root.left.left = new Node(2);
+        
         
         return root;
     }
@@ -134,8 +139,18 @@ public class Mivne_ex5 {
         printTree(node.right);
         
     }
- 
-    
+    public static int isComplete(Node node, int depth){
+     //stop condition
+        if (node == null) 
+            return depth;
+        int l = isComplete(node.left, depth++);
+        int r = isComplete(node.right, depth++);
+
+        //if one of the leafs is too deep (more than 1 level) return -1;
+        if (l == -1 || r == -1) return -1;
+        if (Math.abs(l-r) > 1) return -1;
+     return Math.abs(l-r);
+    }
     public static void log(String str){
         System.err.println(str);
     }
