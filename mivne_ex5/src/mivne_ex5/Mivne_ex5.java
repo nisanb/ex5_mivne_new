@@ -5,6 +5,8 @@
  */
 package mivne_ex5;
 
+import static java.lang.Math.max;
+
 /**
  *
  * @author nisan
@@ -18,47 +20,86 @@ public class Mivne_ex5 {
         Node completeTree = completeTree();
         Node almostCompleteTree = almostCompleteTree();
         Node notCompleteTree = notCompleteTree();
-        
-        printTree(almostCompleteTree);
-        log("Checking Complete Tree");
-        log(checkTree(completeTree).toString());
-        log(isComplete(completeTree, 0)+"");
+        Node notCompleteTree2 = notCompleteTree2();
+//        printTree(notCompleteTree);
+        log("IsComplete: \r\nChecking Complete Tree");
+        log(""+isComplete(completeTree).toString());
+// 
         log("Checking Almost Complete Tree");
-        log(checkTree(almostCompleteTree).toString());
-        log(isComplete(almostCompleteTree, 0)+"");
+      log(isComplete(almostCompleteTree).toString());
+
+    
         log("Checking Not Complete Tree");
-        log(checkTree(notCompleteTree).toString());
-        log("Mickey Function");
-        log(isComplete(notCompleteTree, 0)+"");
+        log(isComplete(notCompleteTree).toString());
+        log("Checking Not Complete Tree 2");
+        log(isComplete(notCompleteTree2).toString());
+      //  log("Mickey Function");
+      
+      
+      log("\r\nIsParentSmallerThankids:");
+        log("Parent Tree OK: "+IsParentSmallerThanKids(ParentTreeOK()));
+      log("Parent Tree OK: "+IsParentSmallerThanKids(ParentTreeNotOK()));
+      
+      log("\r\nIs Minimum Stack:");
+        log("Parent Tree OK: "+IsMinimumStack(ParentTreeOK()));
+      log("Parent Tree OK: "+IsMinimumStack(ParentTreeNotOK()));
+      
         log("");
     }
     
-    public static Boolean checkTree(Node node){
-        
+    /**
+     * 
+     * @param node
+     * @return 
+     */
+    public static Boolean isComplete(Node node){
         //Is empty - is full tree
         if(node==null)
             return true;
-       // log("Checking node "+node.val);
         
-        //If right tree is complete or almost complete
-        //then the left one must be FULL
-        if(checkTree(node.right)){
-            log("Right tree is complete for node "+node.val);
+        if(node.right != null){
             if(node.left==null)
-                return false;
-            if(node.left.left==null || node.left.right==null)
-                return false;
+                return false; //tree is not ok!
+
+            if((node.right.right != null || node.right.left != null)) //if right node has any sons
+                if(node.left.left == null || node.left.right==null) //left node must have both sons
+                    return false; //tree 
+                
+            
         }
         
-        if(node.right != null && node.left == null)
+        
+        
+
+        return isComplete(node.right) && isComplete(node.left);
+        
+    }
+    
+    /**
+     * This function checks if a given binary trees' parent node is smaller than both of his sons
+     * @param node
+     * @return 
+     */
+    public static Boolean IsParentSmallerThanKids(Node node){
+        if(node==null || (node.right==null && node.left==null))
+            return true;
+        
+        if(node.right == null)
+            if(node.left.val<node.val)
+                return false;
+        else
+        if(node.left == null)
+            if(node.right.val<node.val)
+                return false;
+        else
+        if(max(node.right.val, node.left.val)<node.val)
             return false;
         
-        checkTree(node.left);
-        
-        
-        
-        return true;
-        
+        return IsParentSmallerThanKids(node.right) && IsParentSmallerThanKids(node.left);
+    }
+    
+    public static Boolean IsMinimumStack(Node node){
+        return isComplete(node)&&IsParentSmallerThanKids(node);
     }
     
     /**
@@ -82,13 +123,55 @@ public class Mivne_ex5 {
         return root;
     }
     
+     /**
+     * Set up new binary full complete tree
+     *              1
+     *            /   \
+     *          2       5
+     *        /   \    /  \
+     *       3     4  6    
+     * @return 
+     */
+    public static Node ParentTreeOK(){
+        Node root = new Node(1);
+        root.left = new Node(2);
+        root.left.left = new Node(3);
+        root.left.right = new Node(4);
+        root.right = new Node(5);
+        root.right.left = new Node(6);
+        
+        return root;
+    }
+    
+        /**
+     * Set up new binary full complete tree
+     *              1
+     *            /   \
+     *          2       5
+     *        /   \    /  \
+     *       3     4  4    
+     * @return 
+     */
+    public static Node ParentTreeNotOK(){
+        Node root = new Node(1);
+        root.left = new Node(2);
+        root.left.left = new Node(3);
+        root.left.right = new Node(4);
+        root.right = new Node(5);
+        root.right.left = new Node(2);
+        
+        return root;
+    }
+    
     /**
      * Set up new binary almost complete tree
-     *              3
-     *            /   \
-     *          4       6
-     *        /   \    /  \
-     *       1           
+     *                 1
+     *            /         \
+     *          2            3
+     *        /   \        /    \
+     *       4    5       6      7
+     *      / \  / \     / \    / \
+     *     8  9 10 11   14 15  12
      * @return 
      */
     public static Node almostCompleteTree(){
@@ -129,7 +212,25 @@ public class Mivne_ex5 {
         
         return root;
     }
-    
+      /**
+     * Set up new binary not complete tree
+     *              3
+     *            /   \
+     *          4       6
+     *        /   \    /  \
+     *       2     5       9
+     * @return 
+     */
+    public static Node notCompleteTree2(){
+        Node root = new Node(3);
+        root.left = new Node(4);
+        root.right = new Node(6);
+        root.left.left = new Node(2);
+        root.left.right = new Node(5);
+        root.right.right = new Node(9);
+        
+        return root;
+    }
     public static void printTree(Node node){
         if(node==null)
             return;
