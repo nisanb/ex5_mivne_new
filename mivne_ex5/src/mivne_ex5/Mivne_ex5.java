@@ -18,7 +18,8 @@ public class Mivne_ex5 {
         Node completeTree = completeTree();
         Node almostCompleteTree = almostCompleteTree();
         Node notCompleteTree = notCompleteTree();
-        
+        Integer[] arr       = {1,3,5,7,11,13,17,98,104,145,176};
+        Integer[] sortedarr = {1,3,5,7,11,13,17,98,104,145,176};
         printTree(almostCompleteTree);
         log("Checking Complete Tree");
         log(checkTree(completeTree).toString());
@@ -31,6 +32,64 @@ public class Mivne_ex5 {
         log("Mickey Function");
         log(isComplete(notCompleteTree, 0)+"");
         log("");
+        log("Array:");
+        for(int i=0; i<arr.length;i++){
+            System.err.print(arr[i]+", ");
+        }
+        
+        log("");
+        Integer x = 116;
+        log("For X="+x+" the closest sum is "+closestSum(arr, x));
+        log("Sorted Array");
+        for(int i=0; i<sortedarr.length;i++){
+            System.err.print(sortedarr[i]+", ");
+        }
+        
+        log("X="+x);
+        Integer[] returned = get2(sortedarr, x);
+        for(int i=0; i<returned.length;i++){
+            log("Num "+i+": "+returned[i]);
+        }
+        
+        
+        
+        log("");
+        
+    }
+    
+    public static Integer closestSum(Integer[] arr, Integer x){
+        Integer sum=0;
+        //Iterate all elements
+        for(int i=0;i<arr.length;i++)
+            for(int j=0;j<arr.length;j++)
+                 if(arr[i]+arr[j]>sum && arr[i]+arr[j]<x)
+                    sum=arr[i]+arr[j];
+
+        return sum;
+    }
+    
+    public static Integer[] get2(Integer[] arr, Integer x){
+        Integer[] toReturn = {arr[0],arr[arr.length-1]};
+        Integer sum = 0;
+        for(int i=0, j=arr.length-1;i<j;){
+            if(arr[i]+arr[j]==x){
+                toReturn[0] = arr[i];
+                toReturn[1] = arr[j];
+                return toReturn;
+            }
+                
+            if(arr[i]+arr[j]>sum && arr[i]+arr[j]<x){
+                sum=arr[i]+arr[j];
+                toReturn[0] = arr[i];
+                toReturn[1] = arr[j];
+            }
+            if(arr[i]<sum) i++;
+                    else j--;
+                
+            
+        }
+        
+        return toReturn;
     }
     
     public static Boolean checkTree(Node node){
