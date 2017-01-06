@@ -206,6 +206,32 @@ public class Mivne_ex5 {
         
     }
     
+    /**
+     * Question 3.b
+     * @param node
+     * @param i
+     * @return 
+     */
+    public static Integer mivne(Node node, Integer i){
+        while(i!=0){
+            if(i==node.left.size+1)
+                break;
+            if(i>node.left.size){
+                i = i - node.left.size - 1;
+                node = node.right;
+                continue;
+            } else{
+                i-=node.left.size;
+                node = node.left;
+            }
+
+        }
+        
+        return node.val;
+    }
+        
+    
+    
      /**
      * Set up new binary full complete tree
      *              1

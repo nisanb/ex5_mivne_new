@@ -10,7 +10,7 @@ package mivne_ex5;
  * @author nisan
  */
 public class Node {
-    public int val;
+    public int val, size;
     public Node left, right;
     public Node(int val){
         left = null;
