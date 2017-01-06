@@ -120,12 +120,11 @@ public class Mivne_ex5 {
             if(node.left==null)
                 return false; //tree is not ok!
 
-            if((node.right.left != null)) //if right node has any sons
+            if((node.right.left != null)) //if right node has left son
                 if(node.left.left == null || node.left.right==null) //left node must have both sons
                     return false; //tree 
                 
-            if(node.right.left == null && node.right.right == null)
-                if(node.left.left!=null)
+            if(node.right.left == null && node.left.left != null && node.left.left.left!=null)
                     return false;
             
         }
@@ -194,29 +193,13 @@ public class Mivne_ex5 {
      * @return 
      */
     public static Node fuckingTree(){
-        Node root = new Node(0);
-        root.left = new Node(2);
-        root.left.left = new Node(7);
-        root.left.left.right = new Node(9);
-        root.left.left.left = new Node(8);
+        Node root = new Node(7);
+        root.right = new Node(9);
+        
+        root.left = new Node(4);
+        root.left.left = new Node(3);
         root.left.right = new Node(5);
-        root.left.right.left = new Node(10);
-        root.left.right.right = new Node(11);
-        root.right = new Node(6);
-        root.right.left = new Node(14);
-        root.right.right = new Node(16);
         
-        root.right.left.left = new Node(17);
-        root.right.left.right = new Node(18);
-        root.right.left.left.left = new Node(21);
-        root.right.left.left.right = new Node(22);
-        root.right.right.left = new Node(19);
-        root.right.right.right = new Node(20);
-        
-        root.left.left.left.left = new Node(23);
-        root.left.left.left.right = new Node(24);
-        root.left.left.right.left = new Node(25);
-        root.left.left.right.right = new Node(26);
         
         
         return root;
